@@ -1,0 +1,2 @@
+Tom;Mole;202043;6;7;$power punch=Mole.power_punch:5~burrow=Mole.burrow:4~double swipe=Mole.double_swipe:3~uppercut=uppercut:2~concentrate=concentrate:2;$;$70.0:100.0:60.0:40.0:40.0;
+10

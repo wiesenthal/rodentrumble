@@ -69,7 +69,7 @@ def start_combat(player, enemy):
             loot = enemy.money
         else:
             loot = enemy.money + (enemy.level - fighter.level) * 2
-        print(fighter.name + ' found ' + str(loot) + ' shiny trinkets from looting ' + fighter.name + '\'s corpse.')
+        print(fighter.name + ' found ' + str(loot) + ' shiny trinkets from looting ' + enemy.name + '\'s corpse.')
         fighter.money += loot
         wait()
         return 1

@@ -1,5 +1,4 @@
 from rodent import Rodent
-from logging import critical
 MOVES = {}
 
 def concentrate(self, tempo, enemy):
@@ -7,7 +6,7 @@ def concentrate(self, tempo, enemy):
     self.stats['str'] += 10
     self.stats['dex'] += 10
     self.stats['acc'] += 10
-    return 0, -8, 1, self.name + ' is more focused, and is bolstered with newfound energy. *'
+    return (0, -8, 1, self.name + ' is more focused, and is bolstered with newfound energy. *')
 MOVES['concentrate'] = [concentrate, 2, 10]
 
 def stomp(self, tempo, enemy):
@@ -80,19 +79,29 @@ def intimidate(self, tempo, enemy):
 MOVES['intimidate'] = [intimidate, 1, 6]
 
 def uppercut(self, tempo, enemy):
-    '''Uppercut is a simple, powerful finishing move which costs 40 tempo, and must be used only if your tempo is above 30. Deals massive damage. Crit chance = 20%.'''
+    '''Uppercut is a simple, powerful finishing move which costs 40 tempo, and must be used only if you have the tempo. Deals massive damage. Crit chance = 20%.'''
+    if tempo <= 0:
+        return (0, 0, 'Whiff! You cannot uppercut without positive tempo.')
     dmg = self.stats['str']**1.5 / 2
     crit = Rodent.crit(self.stats['acc'], crit_chance=20)
     dmg *= crit
     return (dmg, -40, crit, '')
 MOVES['uppercut'] = [uppercut, 2, 25]
 
-def slap(self, tempo, enemy):
+def slap(self: Rodent, tempo, enemy):
     '''Slap is a quick, half damaging move which gains 10 tempo. Deals more damage if you are ahead on tempo.'''
     dmg = self.stats['str']*.5
     if tempo > 0:
-        dmg = self.stats['sr'] * .75
+        dmg = self.stats['str'] * .75
     crit = Rodent.crit(self.stats['acc'])
     dmg *= crit
     return (dmg, 10, crit, '')
 MOVES['slap'] = [slap, 8, 12]
+
+def blood_sacrifice(self, tempo, enemy):
+    '''Blood Sacrifice uses 25% of your max health and deals damage equal to the health subtracted. Costs 0 tempo. 10% crit, 10% miss'''
+    dmg = self.stats['str']*.25
+    self.health -= dmg
+    crit = Rodent.crit(self.stats['acc'], 10, 10)
+    dmg *= crit
+    return (dmg, 0, crit, self.name + ' draws a portion of their own blood, taking ' + dmg + ' damage, leaving them with ' + self.health + ' hp.')

@@ -56,8 +56,12 @@ class ShadyRoach:
             m = select('What move would you like to learn?', *ShadyRoach.dojo_dict.keys(), info_full = h_dict)
             if rod.money >= ShadyRoach.dojo_dict[m][2]:
                 rod.money -= ShadyRoach.dojo_dict[m][2]
-                print('Learned ' + m + '! new balance: $' + str(rod.money))
-                rod.moves[m] = ShadyRoach.dojo_dict[m][0:2]
+                if m not in rod.moves:
+                    print('Learned ' + m + '! new balance: $' + str(rod.money))
+                    rod.moves[m] = ShadyRoach.dojo_dict[m][0:2]
+                else:
+                    rod.moves[m][1] += ShadyRoach.dojo_dict[m][1]
+                    print('Increased ' + m + ' uses to ' + str(rod.moves[m][1]) + '! new balance: $' + str(rod.money))
                 ShadyRoach.dojo_dict.clear()
             else:
                 print('You do not have enough money for that move.')

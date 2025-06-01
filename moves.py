@@ -81,7 +81,7 @@ MOVES['intimidate'] = [intimidate, 1, 6]
 def uppercut(self, tempo, enemy):
     '''Uppercut is a simple, powerful finishing move which costs 40 tempo, and must be used only if you have the tempo. Deals massive damage. Crit chance = 20%.'''
     if tempo <= 0:
-        return (0, 0, 'Whiff! You cannot uppercut without positive tempo.')
+        return (0, 0, 0, 'Whiff! You cannot uppercut without positive tempo.')
     dmg = self.stats['str']**1.5 / 2
     crit = Rodent.crit(self.stats['acc'], crit_chance=20)
     dmg *= crit
